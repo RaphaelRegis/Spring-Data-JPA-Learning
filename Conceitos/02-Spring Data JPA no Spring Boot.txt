@@ -1,0 +1,9 @@
+Iremos trabalhar o Spring Data JPA com o Spring Boot. Para adicionar o JPA no Spring Boot, vamos seguir os seguintes passos:
+
+- abrir o Spring initializr;
+- adicionar a dependência Spring Data JPA
+- :D
+
+A conexão com o banco de dados se dá da exata mesma forma como descrito na minha pasta de aprendizado do Spring Boot.
+
+É importante destacar que, num ambiente de produção, a configuração spring.jpa.hibernate.ddl-auto não utiliza o update como estamos acostumados. Geralmente, ela utiliza o none (a aplicação assume que o sistema já existe e não faz nenhuma operação automática em relação ao esquema do banco de dados) ou validate (não altera o esquema existente, apenas avalia se o banco de dados está de acordo com as entidades JPA).

@@ -1,0 +1,13 @@
+Existem diversos tipos de relacionamentos entre as entidades. Lembre-se que a perspectiva de escrita deles parte do princípio de que entidadeSendoEscritaToEntidadeReferenciada.
+
+1 - @OneToOne: mapeia relacionamentos de um-para-um.
+	Exemplo: 1 pessoa possui 1 cpf;
+
+2 - @OneToMany: mapeia relacionamentos de um-para-muitos.
+	Exemplo: 1 autor escreve vários livros, mas cada livro só tem 1 autor;
+
+3 - @ManyToOne: mapeia relacionamentos de muitos-para-um.
+	Exemplo: um livro possui apenas 1 autor, mas 1 autor possui vários livros;
+
+4 - @ManyToMany: mapeia relacionamentos de muitos-para-muitos.
+	Exemplo: um estudante pode fazer parte de vários cursos, assim como um curso pode ter muitos estudantes.

@@ -1,0 +1,30 @@
+Antes de mexermos como com foreign keys, temos uma outra alternativa.
+
+Vamos supor que vc tenha uma tabela Estudante que possua um Professor. Você não quer usar a foreign key, vc quer colocar os campos do Professor na tabela do Estudante sem ter os campos da classe Professor na classe Estudante;
+
+Para isso, usamos a notação @Embedabble e @ Embedded;
+
+@EMBEDDABLE
+
+- O Professor recebe a anotação @Embedabble na declaração de sua classe;
+
+O Professor precisa sobrescrever atributos da tabela do Estudante, e para fazer isso, ele recebe também na declaração a anotação @AttributeOverrides
+
+@ATTRIBUTEOVERRIDES
+
+Ela serve para dizer quais colunas serão sobrescritas e por quais atributos. Funciona assim:
+
+@AttributeOverrides({
+	@AttributeOverride(
+		name = "nomeDoAtributoNaClasseProfessor1",
+		column = @Column(name = "nomeDaColunaNaTabelaEstudantes1")
+	),
+	@AttributeOverride(
+		name = "nomeDoAtributoNaClasseProfessor2",
+		column = @Column(name = "nomeDaColunaNaTabelaEstudantes2")
+	)
+})
+
+@EMBEDDED
+
+Já na classe Estudante, ela irá receber um campo de instanciação para um Professor, e esse campo receberá a anotação @Embedded.

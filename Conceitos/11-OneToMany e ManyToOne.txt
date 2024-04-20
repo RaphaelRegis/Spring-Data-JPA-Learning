@@ -1,0 +1,41 @@
+@ONETOMANY
+
+"Eu tenho muitos dele, mas cada um deles tem apenas um de mim".
+
+A lógica do OneToMany dentro do Spring Data JPA é a seguinte:
+
+- escrevo a partir da parte à esquerda (One);
+- eu tenho um campo que é uma lista de quem é o Many;
+- essa lista recebe a notação OneToMany;
+- essa lista não criará uma coluna em mim, mas sim no Many, já que eu é quem tenho muitos dele;
+
+Sintaxe de exemplo - um Autor possui muitos livros (objetos da classe Livro). Caso eu escreva a relação da perspectiva do autor:
+
+
+private long autorId;
+
+//essa coluna não fará parte do One (Autor), e sim do Many (Livro)
+@OneToMany(cascade = CascadeType.ALL)
+@JoinColumn(name = "autor_id", referencedColumnName = "autorId")
+private List<Livro> livros;
+
+Lembre-se que pelo padrão builder (ou até pelo construtor), o objeto da classe Autor seria instanciado e salvo com o campo livros recebendo uma lista do tipo Livro (sendo esses os livros de sua autoria).
+
+@MANYTOONE
+
+"Eu tenho um de você, mas você tem muitos de mim"
+
+É o outro lado da perspectiva do OneToMany. É preferível o seu uso, uma vez que não é uma classe criando coluna na tabela de outra classe, e sim a própria classe definindo sua coluna. A sintaxe funciona assim, ainda com exemplo dos livros e do autor:
+
+//o livro recebe um campo do autor, de resto é como o @OneToOne
+
+@ManyToOne(cascade = CascadeType.ALL)
+@JoinColumn(
+	name = "autor_id",
+	referencedColumnName = "autorId"
+)
+private Autor autor;
+
+
+
+

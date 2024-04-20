@@ -1,0 +1,17 @@
+Para definir uma foreign key, utiliza-se a notação @JoinColumn na seguinte forma:
+
+@JoinColumn(
+	name = "nomeQueAColunaReceberá",
+	referencedColumnName = "nomeDaColunaReferenciada"
+)
+
+Ou seja, essa notação vai em cima do campo da classe que será referenciado.
+Por exemplo, a classe Curso possui um Professor, e em cima desse professor, ocorre a notação:
+
+@JoinColumn(
+	name = "professor_do_curso",
+	referencedColumnName = "id_professor"
+)
+private Professor professor;
+
+NORMALMENTE, essa notação é usada em conjunto com as notações de relacionamento, como @ManyToOne e @OneToOne.

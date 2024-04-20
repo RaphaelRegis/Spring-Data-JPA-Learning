@@ -1,0 +1,70 @@
+LÓGICA DO RELACIONAMENTO
+
+Um relacionamento ManyToMany ocorre quando uma entidade A possui muitos da entidade B, assim como uma entidade B possui muitos da entidade A.
+
+Por exemplo, numa faculdade, um aluno pode ter matrícula em muitos cursos, assim como um curso pode ter muitos alunos.
+
+A título de duvida pessoal, a programação ocorre da perspectiva de que a entidade é única e possui muitos, semelhante ao OneToMany. Contudo, ao considerar a perspectiva daquele que está do lado do Many, ele também se encaixa nessa lógica.
+Ou seja, um de mim tem muito deles, mas um único deles tem muitos de mim.
+
+No Spring Data JPA, esse relacionamento aparece da seguinte forma:
+
+1 - entidade A possui coleção da entidade B;
+2 - entidade B possui coleção da entidade A;
+3 - com o uso do ManyToMany e do JoinTable nas entidades associadas, cria-se uma nova tabela que associa as duas (sendo a primary key uma composite key formada pelas colunas das entidades que foram definidas no JoinTable);
+4 - ou seja, uma nova tabela surge para representar a associação.
+
+SINTAXE
+
+Para fazer isso, no campo que é a coleção da outra entidade (por exemplo, a coleção de alunos na entidade Curso) recebe a anotação @ManyToMany com o Cascade.Type e logo em baixo o atributo @JoinTable, que recebe algumas configurações.
+
+Exemplo de Curso que possui muitos alunos:
+
+@ManyToMany(cascade = CascadeType.ALL)
+@JoinTable(
+	name = "aluno_disciplina",	//nome da nova tabela
+	joinColumns = @JoinColumn(name = "curso_id"), //qual coluna da entidade proprietária (a que tem o @JoinTable)
+	inverseJoinColumns = @JoinColumn(name = "aluno_id") //qual coluna da entidade do outro lado do relacionamento
+)
+private List<Aluno> alunos;
+
+ao passo que dentro de Aluno:
+
+@ManyToMany(mappedBy = "alunos")
+private List<Curso> cursos;
+
+Com esse código, é possível criar uma tabela que irá associar as duas entidades.
+
+TABELA DE ASSOCIAÇÃO COM MAIS CAMPOS
+
+Caso você queira gerar uma tabela de associação que tenha mais campos além da associação, como uma coluna para a média do aluno naquela disciplina, aí você cria uma nova entidade (por exemplo, AlunoCurso) que possui como campos um Aluno e um Curso com as anotações @ManyToOne e @JoinColumn, enquanto Aluno e Curso recebem cada um uma coleção de AlunoCurso com a anotação @OneToMany mapeada pelos campos de AlunoCurso respectivos. Segue o exemplo:
+
+Em AlunoCurso:
+
+@ManyToOne
+@JoinColumn(name = "aluno_id")
+private Aluno aluno;
+
+@ManyToOne
+@JoinColumn(name = "curso_id")
+private Curso curso;
+
+Em Aluno:
+
+@OneToMany(mappedBy = "aluno")
+private List<AlunoCurso> alunoCurso;
+
+Em Curso:
+
+@OneToMany(mappedBy = "curso")
+private List<AlunoCurso> alunoCurso;
+
+
+Note que AlunoCurso precisa agora de um id igual nas outras entidades;
+
+
+ 
+
+
+
+

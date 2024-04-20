@@ -1,0 +1,32 @@
+Caso você tenha de criar um método no repositório que não possa ser definido com base apenas na assinatura de acordo com o sistema do JpaRepository, é possível escrever a query específica que o método irá fazer, seja em JPQL ou em SQL nativo. Para isso, cria-se a assinatura do método e com a anotação @Query, escreve-se a query específica que o método fará (sem o ponto-e-vírgula).
+
+QUERY DE BUSCA COM JPQL
+
+Escreve-se a assinatura do método e em cima, a anotação @Query("query escrita em JPQL"). O parâmetro da query é escrito da seguinte forma: ?1 para o primeiro parâmetro, ?2 para o segundo e assim por diante. Exemplo:
+
+@Query("select s.firstName from Student s where s.emailId = ?1")
+String getStudentFirstNameByEmailAddress(String emailId);
+
+Importante notar que o JPQL, de maneira bruta, é o SQL escrito com base nas classes e os atributos ao invés do nome das tabelas e suas colunas.
+
+QUERY DE BUSCA COM SQL NATIVO
+
+O esquema é o mesmo, porém, a query recebe o parâmetro nativeQuery como true. Por exemplo:
+
+@Query(value = "SELECT s.first_name FROM student WHERE s.email_id = ?1",
+	nativeQuery = true
+)
+String getStudentFirstNameByEmailAddress(String emailId);
+
+BUSCA COM 2 OU MAIS PARÂMETROS
+
+Pode ser usado esse esquema de ?1, ?2 ... ?n, mas existe um outro jeito que pode ser melhor em certos casos, que é nomeando qual parâmetro do método indica o que na consulta do SQL (ou JPQL). O exemplo é o seguinte:
+
+@Query(value = "SELECT s.first_name FROM student WHERE s.email_id = :emailId",
+	nativeQuery = true
+)
+String getStudentFirstNameByEmailAddress(@Param("emailId") String emailId);
+
+OPERAÇÕES QUE REALIZAM MODIFICAÇÕES NO BANCO DE DADOS
+
+Para operações que realizam modificações no banco de dados, existem duas notações: @Modify, que indica que a operação irá modificar algo do banco de dados (divide espaço com a notação @Query) e a notação @Transaction, que indica uma que esse método realizará transação com o banco de dados (para fins de estudo, essa notação fica no repositório, mas normalmente ela fica na camada de serviços).

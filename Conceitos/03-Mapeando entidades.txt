@@ -1,0 +1,17 @@
+Vamos assumir que o spring.jpa.hibernate.ddl-auto está setado com o update;
+
+A lógica de conversa entre um objeto numa tabela de um banco de dados relacional e um objeto criado em OOP funciona da seguinte forma:
+
+- A classe é a tabela;
+- os campos da classe são as colunas;
+
+- @ Entity: para que uma classe seja tratada como tabela (ou seja, sua entidade no banco de dados), sua declaração de ve receber a anotação @Entity;
+- @Id: para que determinado campo seja tratado como id, ele deve receber a notação @Id;
+
+OUTRAS NOTAÇÕES
+
+- @Table: permite a configuração de coisas da tabela. Por exemplo, @Table(name = "nome") pode ser usado para dizer que a tabela terá um nome diferente no banco de dados, assim como o UniqueConstraints pode ser usado para dizer quais colunas devem ter conteúdo único entre os objetos (por exemplo um campo de emails, que devem ser diferente entre os objetos);
+
+- @Column: mesma coisa de @Table, mas com as colunas. O parâmetro name pode ser usado da mesma forma, mas existem outras configurações como o nullable=true or false, que diz se determinado atributo pode ou não ser nulo;
+
+- @GeneratedValue: diz como será gerado um valor para a coluna. Geralmente é usado na geração do campo que representa o ID do objeto. Sua explicação será detalhada num arquivo posterior;

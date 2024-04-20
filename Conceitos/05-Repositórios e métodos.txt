@@ -1,0 +1,22 @@
+Dentro de uma aplicação, existe uma camada de repositório capaz de fazer a comunicação com o banco de dados. Já existe uma explicação básica sobre como os repositories funcionam no Spring Boot, mas vamos discorrer sobre o tema aqui também.
+
+- Na aplicação, temos um package repositories;
+- dentro desse packagem estão nossos diferentes repositórios;
+- um repositório trata-se de uma interface com a anotação @Repository (que é um @Component);
+- cada repositório é responsável por trabalhar a comunicação de uma classe com uma tabela;
+- para que isso seja possível, a interface do repositório precisa extender o JpaRepository;
+- o JpaRepository precisa receber dois parâmetros: o tipo de objeto que irá ser trabalhado e o tipo que é o ID desse objeto.
+
+Exemplo -  o repositório de uma classe Estudante que tem como ID um inteiro:
+	public interface EstudanteRepository extends JpaRepository<Estudante, Integer> {}
+
+
+Feito isso, a maioria dos métodos de CRUD já estarão disponíveis para serem usados.
+Contudo, é possível criar métodos próprios sem fazer a implementação: basta seguir uma sintaxe específica. Funciona assim:
+
+- não há métodos por exemplo, para buscar entidades com base em atributos que não sejam ID. Contudo, podemos criar esses métodos apenas fazendo a assinatura, sem precisar mexer em implementação.
+- para o id, temos o método findById(tipo do id). Caso queiramos buscar com base em nome, podemos usar a sintaxe e escrever a assinatura findByNome(String nome) e então o método já estará funcionando.
+
+É possível então criar métodos personalizados para o JPA com base nessa regra, facilitando nossa vida. Para entender até onde vai a criação de métodos dessa forma, acesse o link:
+
+docs.spring.io/spring-data/jpa/docs/2.5.1/reference/html/#jpa.query-methods - pode colocar a versão mais atual também se for o caso

@@ -1,0 +1,15 @@
+Recebe como parâmetro o strategy (@GeneratedValue(strategy = ))
+
+Possíveis valores para o strategy:
+
+- GenerationType.AUTO: o provedor JPA escolhe automaticamente uma estratégia apropriada com base no banco de dados;
+
+- GenerationType.IDENTITY: usa colunas de identidade do banco de dados, comuns em MySQL e PostgreSQL. É configurada como autoincrementável, permitindo a geração de valores exclusivos;
+
+- GenerationType.SEQUENCE: usa uma sequência definida para gerar valores únicos. A sequência deve ser definida da seguinte forma:
+
+//o allocationSize pode ser dito como o incremento;
+@SequenceGenerator(name = "nomeParaUsarASequencia", sequenceName = "nomeDaSequencia", allocationSize = 1)
+@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "nomeParaUsarASequencia")
+
+- GenerationType.TABLE: usa uma tabela especial de banco de dados para armazenar e gerenciar os valores de chave primária, tendo uso incomum e capaz de impactar no desempenho.

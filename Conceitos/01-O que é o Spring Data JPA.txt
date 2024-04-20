@@ -1,0 +1,6 @@
+O Spring Data JPA é uma parte do ecossistema Spring que simplifica o acesso a bancos de dados relacionais através da tecnologia JPA (Java Persistence API). Ele fornece uma abstração sobre a camada de persistência, permitindo uma forma de trabalho mais simples e eficiente.
+
+JPA
+
+Trata-se de uma especificação do Java que descreve uma interface comum para frameworks de mapeamento objeto-relacional (ORM). Ou seja, ele é uma interface que padroniza o comportamento das ORMs (como o Hibernate, o EclipseLink e o ApacheOpenJPA).
+

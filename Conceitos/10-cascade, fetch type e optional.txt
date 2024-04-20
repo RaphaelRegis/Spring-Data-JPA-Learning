@@ -1,0 +1,60 @@
+CASCADE
+
+O cascade diz como as operações com uma entidade irão afetar suas entidades associadas. É definido dentro da anotação de relacionamento de acordo com a lógica das foreign keys. A sintaxe funciona da seguinte maneira:
+
+@OneToOne(
+	cascade = CascadeType.ALL
+)
+
+Alguns dos tipos CascadeType mais comuns são os seguintes:
+
+1 - CascadeType.ALL: realiza todas as operações de persistencia (salvar, atualizar, excluir) automaticamente em entidades associadas quando a operação correspondente é executada na entidade principal;
+
+2 - CascadeType.PERSIST: propaga apenas a operação de persistência salvar;
+
+3 - CascadeType.MERGE: propaga apenas a operação de persistência atualizar - ou seja, de mesclagem;
+
+4 - CascadeType.REMOVE: propaga apenas a operação de persistência excluir;
+
+5 - CascadeType.REFRESH: propaga a operação de atualização do estado persistente para entidades associadas.
+
+FETCH TYPE
+
+Quando buscamos uma entidade com associações no banco de dados, temos duas formas de trazer ela, que são definidas no mesmo espaço do cascade com a propriedade fetch que pode ser EAGER (trazer tanto a entidade quanto sua associação) ou LAZY (traz apenas a entidade, a associação não é trazida). Sintaxe de exemplo:
+
+@OneToOne(
+	cascade = CascadeType.ALL,
+	fetch = FetchType.EAGER
+)
+
+Normalmente, apenas o EAGER é utilizado. 
+
+RELAÇÃO UNIDIRECIONAL E BIDIRECIONAL
+
+Quando a associação é definida por uma foreign key em apenas uma das entidades, a relação é unidirecional, e caso você chame a entidade da associação que não tenha a referência, apenas ela será chamada, sem a entidade associada. Quando a associação é explicita nas duas (quando ambas entidades se referenciam), a relação é bidirecional. Para definir isso no Spring Data JPA, é necessário um campo em cada entidade da associação que é o representativo da uma coluna foreign key que referencia a outra. 
+Por exemplo, um filho possui um pai (@OneToOne para ambas). Para que o filho e o pai sejam uma relação bidirecional, o filho precisa de um objeto Pai e o pai precisa de um objeto Filho. 
+
+Na sintaxe do Spring Data JPA, uma das partes da entidade atua como descrito anteriormente (08-Foreign Keys). Já a outra entidade precisa apenas dizer por quem ela é mapeada dentro da notação do tipo de relacionamento.
+
+Ainda no exemplo do pai e filho, caso o pai tenha o campo:
+
+@OneToOne
+@JoinColumn(name = "filho_id", referencedColumnName = "filhoId")
+private Filho filho;
+
+O filho precisa de:
+
+@OneToOne(mappedBy = "filho")
+private Pai pai;
+
+Ou seja, a parte do mappedBy recebe em String o nome do campo que a classe representa dentro da outra parte da associação. Em outras palavras: "o meu nome dentro do outro"
+
+CAMPO OPTIONAL
+
+Dentro da relação, é possível definir se uma entidade pode ser instanciada e persistida com o campo da relação nulo. Para mudar isso (sempre da perspectiva de quem tem a notação da relação), existe o campo optional, que pode receber falso caso ele não seja opcional, e sim obrigatório:
+
+@OneToOne(
+	cascade = CascadeType.ALL,
+	fetch = FetchType.EAGER,
+	optional = false
+)
